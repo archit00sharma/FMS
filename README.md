@@ -65,7 +65,7 @@ git push origin feature/your-feature-name
 
 ## Contact
 
-For any inquiries or questions about the FMS project, please contact architsharma29@gmail.com.
+For any inquiries or questions about the FMS project, please contact the owner
 
 
 

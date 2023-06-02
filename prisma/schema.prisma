@@ -1,0 +1,129 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  email       String     @unique
+  name        String?
+  role        Role
+  mobile      String     @unique
+  password    String
+  permissions Permission
+  created_by  String?    @db.ObjectId
+
+  is_active  Boolean  @default(true)
+  is_deleted Boolean  @default(false)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("users")
+}
+
+enum Role {
+  admin
+  manager
+  senior_supervisor
+  supervisor
+  field_executive
+}
+
+type Permission {
+  read  Read
+  write Write
+}
+
+type Read {
+  members MemberRead[] @default([no_permission])
+  case    CaseRead[]   @default([no_permission])
+}
+
+type Write {
+  members MemberWrite[] @default([no_permission])
+  case    CaseWrite[]   @default([no_permission])
+}
+
+enum MemberRead {
+  no_permission
+  manager
+  senior_supervisor
+  supervisor
+  field_executive
+  all
+}
+
+enum CaseRead {
+  no_permission
+  excel
+  pdf
+  all
+}
+
+enum MemberWrite {
+  no_permission
+  insert
+  delete
+  update
+  all
+}
+
+enum CaseWrite {
+  no_permission
+  delete
+  update
+  insert
+  all
+}
+
+model UserAllocations {
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  area                 String
+  product              String
+  bank                 String
+  manager_id           String?  @db.ObjectId
+  senior_supervisor_id String?  @db.ObjectId
+  supervisor_id        String?  @db.ObjectId
+  field_executive_id   String?  @db.ObjectId
+  is_active            Boolean  @default(true)
+  is_deleted           Boolean  @default(false)
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  @@unique([area, bank, product], name: "user_allocation_unique")
+  @@map("userAllocations")
+}
+
+model Area {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  area       String   @unique
+  is_active  Boolean  @default(true)
+  is_deleted Boolean  @default(false)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Product {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  product    String   @unique
+  is_active  Boolean  @default(true)
+  is_deleted Boolean  @default(false)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Bank {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  bank       String   @unique
+  is_active  Boolean  @default(true)
+  is_deleted Boolean  @default(false)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
