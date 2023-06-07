@@ -27,13 +27,12 @@ async function main() {
             mobile: '999999999',
             password: hashedPassword,
             permissions: {
-                read: {
-                    members: ['all'],
-                    case: ["all"]
-                },
-                write: {
-                    members: ['all'],
-                    case: ["all"]
+                case: ["all"],
+                member: {
+                    read: ["all"],
+                    write: ["all"],
+                    update: ["all"],
+                    delete: ["all"]
                 }
             },
             is_active: true,

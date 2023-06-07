@@ -18,6 +18,7 @@ module.exports = async function (fastify, opts) {
         },
         handler: async (request, reply) => {
             try {
+                await fastify.authVerify(request);
 
                 await fastify.userController.getAllUsers(request, reply)
 
@@ -36,6 +37,8 @@ module.exports = async function (fastify, opts) {
         handler: async (request, reply) => {
             try {
 
+
+                await fastify.authVerify(request);
                 await fastify.userController.createUser(request, reply)
 
             } catch (err) {
@@ -52,7 +55,7 @@ module.exports = async function (fastify, opts) {
         },
         handler: async (request, reply) => {
             try {
-
+                await fastify.authVerify(request);
                 await fastify.userController.getUserById(request, reply)
 
             } catch (err) {
@@ -69,7 +72,7 @@ module.exports = async function (fastify, opts) {
         },
         handler: async (request, reply) => {
             try {
-
+                await fastify.authVerify(request);
                 await fastify.userController.updateUserById(request, reply)
 
             } catch (err) {
@@ -86,7 +89,7 @@ module.exports = async function (fastify, opts) {
         },
         handler: async (request, reply) => {
             try {
-
+                await fastify.authVerify(request);
                 await fastify.userController.deleteUserById(request, reply)
 
             } catch (err) {

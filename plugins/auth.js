@@ -8,7 +8,10 @@ module.exports = fp(async (fastify, opts) => {
 
     fastify.decorate('authVerify', async (request) => {
         try {
-            const authToken = req.headers.authorization.split('Bearer ')[1]
+          
+            const authToken = request.headers.authorization.split('Bearer ')[1]
+           
+            
             const user = fastify.jwt.decode(authToken);
             if (!user || !authToken) throw fastify.httpErrors.badRequest(request.locales.UNAUTHORIZED);
 
@@ -22,17 +25,4 @@ module.exports = fp(async (fastify, opts) => {
             throw fastify.httpErrors.unauthorized(err.message);
         }
     });
-
-    // fastify.decorate('socketAuth', async (request) => {
-    //     try {
-    //         const user = fastify.jwt.decode(request.headers['sec-websocket-protocol'] || null);
-    //         const token = await fastify.redis.get(
-    //             `switch:${process.env.NODE_ENV}:loggedInUsers:${user.id}`,
-    //         );
-    //         if (!user || !token) throw fastify.httpErrors.badRequest(request.locales.UNAUTHORIZED);
-    //         request.user = user;
-    //     } catch (err) {
-    //         // throw fastify.httpErrors.unauthorized(err.message);
-    //     }
-    // });
 });

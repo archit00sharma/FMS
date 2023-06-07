@@ -11,14 +11,14 @@ datasource db {
 }
 
 model User {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
-  email       String     @unique
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  email       String      @unique
   name        String?
   role        Role
-  mobile      String     @unique
+  mobile      String      @unique
   password    String
-  permissions Permission
-  created_by  String?    @db.ObjectId
+  permissions Permission?
+  created_by  String?     @db.ObjectId
 
   is_active  Boolean  @default(true)
   is_deleted Boolean  @default(false)
@@ -37,22 +37,26 @@ enum Role {
 }
 
 type Permission {
-  read  Read
-  write Write
+  case   Case[]
+  member Member?
 }
 
-type Read {
-  members MemberRead[] @default([no_permission])
-  case    CaseRead[]   @default([no_permission])
+enum Case {
+  read
+  write
+  update
+  delete
+  all
 }
 
-type Write {
-  members MemberWrite[] @default([no_permission])
-  case    CaseWrite[]   @default([no_permission])
+type Member {
+  read   Read[]
+  write  Write[]
+  update Update[]
+  delete Delete[]
 }
 
-enum MemberRead {
-  no_permission
+enum Read {
   manager
   senior_supervisor
   supervisor
@@ -60,26 +64,27 @@ enum MemberRead {
   all
 }
 
-enum CaseRead {
-  no_permission
-  excel
-  pdf
+enum Write {
+  manager
+  senior_supervisor
+  supervisor
+  field_executive
   all
 }
 
-enum MemberWrite {
-  no_permission
-  insert
-  delete
-  update
+enum Update {
+  manager
+  senior_supervisor
+  supervisor
+  field_executive
   all
 }
 
-enum CaseWrite {
-  no_permission
-  delete
-  update
-  insert
+enum Delete {
+  manager
+  senior_supervisor
+  supervisor
+  field_executive
   all
 }
 

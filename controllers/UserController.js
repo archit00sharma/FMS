@@ -16,7 +16,6 @@ const userController = (fastify) => {
 
     const getAllUsers = async (request, reply) => {
         try {
-
             const { page_no, no_of_records, query: { search, role = 'manager' } } = request;
 
             const [users] = await fastify.userService.all(page_no, no_of_records, search, { role })
@@ -35,7 +34,7 @@ const userController = (fastify) => {
 
     const createUser = async (request, reply) => {
         try {
-            request.body.created_by = "6479573e8ccc31c0bedd1980";
+            request.body.created_by = request.user.id
 
             if (!request.body.permissions) request.body.permissions = {
                 read: { members: ["no_permission"], case: ["no_permission"] },
@@ -54,7 +53,6 @@ const userController = (fastify) => {
 
     const getUserById = async (request, reply) => {
         try {
-
             const user = await fastify.userService.read({ id: request.params.id })
 
             reply.status(200).send({ data: { user: user || {} }, statusCode, error })
@@ -67,7 +65,6 @@ const userController = (fastify) => {
 
     const updateUserById = async (request, reply) => {
         try {
-            // await fastify.authVerify()
 
             const user = await fastify.userService.update(request.params.id, request.body);
 
