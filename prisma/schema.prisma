@@ -108,7 +108,7 @@ model UserAllocations {
 
 model Area {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  area       String   @unique
+  name       String   @unique
   is_active  Boolean  @default(true)
   is_deleted Boolean  @default(false)
   created_at DateTime @default(now())
@@ -117,7 +117,7 @@ model Area {
 
 model Product {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  product    String   @unique
+  name   String   @unique
   is_active  Boolean  @default(true)
   is_deleted Boolean  @default(false)
   created_at DateTime @default(now())
@@ -126,7 +126,7 @@ model Product {
 
 model Bank {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  bank       String   @unique
+  name     String   @unique
   is_active  Boolean  @default(true)
   is_deleted Boolean  @default(false)
   created_at DateTime @default(now())
